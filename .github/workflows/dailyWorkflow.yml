@@ -54,11 +54,12 @@ jobs:
             ARTIFACT_TOKEN: ${{ secrets.DOWNLOAD_ARTIFACT_TOKEN }}
           run: |
             cd database/scripts
+            artifact_download_url = $(gh api -XGET '/repos/Crola1702/buildfarm-tools/actions/artifacts' --jq ".artifacts[0].archive_download_url")
             curl -L \
-              -u Crola1702:$ARTIFACT_TOKEN \
-              -H "Authorizatiopn: Bearer $ARTIFACT_TOKEN" \
-              $(gh api -XGET '/repos/Crola1702/buildfarm-tools/actions/artifacts' --jq ".artifacts[0].archive_download_url")
-            unzip buildfarm-report_*.zip
+              -H "Authorization: Bearer $ARTIFACT_TOKEN" \
+              -o buildfarm-report.zip \
+              $artifact_download_url
+            unzip buildfarm-report.zip
             mv buildfarm-report_*.json latest_report.json
         - name: Generate report
           run: |
