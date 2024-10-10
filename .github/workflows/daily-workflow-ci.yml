@@ -10,7 +10,6 @@ on:
       - 'database/scripts/format_report.rb'
       - 'database/buildfarmer.db'
       - '.github/workflows/daily-workflow-ci.yaml'
-  workflow_dispatch:
 jobs:
   run-ci:
     name: Setup
@@ -25,7 +24,6 @@ jobs:
         run: |
           BRANCH=${{ github.head_ref }}
           REPORT_NAME="${BRANCH/\//_}"
-          echo "REPORT_NAME is: $REPORT_NAME"
           echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
       - name: Generate today's report
         run: |
